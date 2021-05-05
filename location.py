@@ -10,7 +10,10 @@ else:
 
 while True:
     ret,frame = camera.read()
-    frame = cv2.resize(frame, (600, 600)) # 统一处理画幅大小
+    frame=frame[60:420, 0:640]
+    print(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
+    print(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    #frame = cv2.resize(frame, (640, 480)) # 统一处理画幅大小
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # 转为灰度图
     blurred = cv2.GaussianBlur(gray, (5,5), 0) # 进行高斯滤波去噪
     thresh = cv2.threshold(blurred, 108, 255, cv2.THRESH_BINARY_INV)[1] # 二值化处理，找到清晰边界
