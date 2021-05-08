@@ -1,12 +1,3 @@
 {
-<<<<<<< HEAD
     "python.pythonPath": "C:\\Users\\ZhangZixuan\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
-=======
-    "python.pythonPath": "C:\\Users\\24143\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
-    "files.associations": {
-        "*.asp": "html",
-        "*.html": "html",
-        "cmath": "cpp"
-    }
->>>>>>> 02d83531b6246d77723fd08b33cf736a5963d9c6
 }
