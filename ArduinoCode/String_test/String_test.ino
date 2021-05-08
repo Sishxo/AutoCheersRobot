@@ -27,11 +27,13 @@ void loop() {
           angleList[j]=buffer.toInt();
           j++;
           buffer="";
-        }else{
+        }
+        else{
           buffer.concat(comedata[i]);
         }
+      angleList[j]=buffer.toInt();
     }
-    angleList[j]=buffer.toInt();
+    //angleList[j]=buffer.toInt(); 这一行代码不可以写在循环外面
     for(int i=0;i<4;i++){
         Serial.println(angleList[i]);
     }
