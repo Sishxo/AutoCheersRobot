@@ -13,6 +13,7 @@ String comedata = ""; //定义空的字符串用于接收串口监视器发送�
 String buffer = "";  
 int angleList[4] = {0}; //定义空的数组用于接收四个舵机的角度
 int mark = 0; //定义mark用于标记串口状态
+String temp="";
 
 void setup(){
     //打开串口
@@ -54,21 +55,22 @@ void serial_scan(){
         Serial.println("Mark = 1!");
         Serial.println(comedata);
         Serial.println(comedata.length());
-        for(int i = 0; i < comedata.length(); i++){
-            //Serial.println(buffer);
-            Serial.println(comedata[i]);
-            if(comedata[i] == ","){
-                Serial.println("test");
-                angleList[i] = buffer.toInt();
+        for(int i = 0; i < comedata.length()-1; i++){
+            
+            //Serial.println(comedata[i]);
+            temp=comedata[i];
+            if(temp.equals(",")){
+                //Serial.println("test");
+                angleList[j] = buffer.toInt();
                 j++;
                 buffer = "";
             }
             else{
                 buffer.concat(comedata[i]);
             }
-            
+             //Serial.println(buffer);
         }
-        angleList[j] = buffer.toInt();
+       angleList[j] = buffer.toInt();
         for(int i = 0; i < 4; i++){
             Serial.println(angleList[i]);
         }
