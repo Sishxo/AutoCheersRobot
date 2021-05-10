@@ -10,7 +10,7 @@ else:
 
 while True:
     ret,frame = camera.read()
-    frame=frame[60:420, 0:640]
+    frame=frame[60:420, 60:580]
     print(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
     print(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
     #frame = cv2.resize(frame, (640, 480)) # 统一处理画幅大小
