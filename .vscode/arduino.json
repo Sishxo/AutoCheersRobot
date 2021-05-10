@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:mega",
+    "port": "COM3",
+    "sketch": "receive.ino"
+}
