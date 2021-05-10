@@ -18,7 +18,7 @@ while True:
     blurred = cv2.GaussianBlur(gray, (5,5), 0) # 进行高斯滤波去噪
     thresh = cv2.threshold(blurred, 108, 255, cv2.THRESH_BINARY_INV)[1] # 二值化处理，找到清晰边界
     #adaptive_thresh=cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV , 11 , 2)
-    print("test")
+    #print("test")
     contours = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours = imutils.grab_contours(contours) # 找到边界数组
 
