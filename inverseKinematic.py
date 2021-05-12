@@ -94,6 +94,7 @@ def inverseKinematics(x, y, z):
     print(angleList)
     return angleList
 
+
 def main():
     inverseKinematics(150, 0, 0)
 
