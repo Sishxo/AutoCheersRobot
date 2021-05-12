@@ -12,9 +12,11 @@ def ANG2RAD(angle):  # 角度转弧度，用于三角函数计算
 
 
 def inverseKinematics(x, y, z):
-    L1 = 10.4
-    L2 = 8.9
-    L3 = 15  # 三根连杆的长度
+    angleList = []
+    min = 90
+    L1 = 104
+    L2 = 89
+    L3 = 150  # 三根连杆的长度
     flag = 0
     j0 = atan2(y, x)  # j0为求得云台底部(0#舵机)所需旋转角度
     # print(j0)
@@ -32,7 +34,7 @@ def inverseKinematics(x, y, z):
             continue
         j3 = acos((a**2+b**2+L1**2-L2**2-L3**2-2*a*L1*sin(j1)-2 *
                   b*L1*cos(j1))/(2*L2*L3))  # 推导后得到的j3(3#舵机的角度)的表达式
-        #print(str(temp1)+" "+str(j3))
+        # print(str(temp1)+" "+str(j3))
         m = L2*sin(j1)+L3*sin(j1)*cos(j3)+L3*cos(j1)*sin(j3)  # 中间步骤
         n = L2*cos(j1)+L3*cos(j1)*cos(j3)-L3*sin(j1)*sin(j3)
         t = a-L1*sin(j1)
@@ -76,15 +78,25 @@ def inverseKinematics(x, y, z):
         j2 = RAD2ANG(j2)
         j3 = RAD2ANG(j3)
         if x1 > x-1 and x1 < x+1 and y1 > y-1 and y1 < y+1 and z1 > z-1 and z1 < z+1:
-            print("j0:%f,j1:%f,j2:%f,j3:%f,x:%f,y:%f,z:%f\r\n" %
-                  (RAD2ANG(j0), j1, j2, j3, x1, y1, z1))
+            temp = abs(j3-90)
+            if temp <= min:
+                min = temp
+                angleList.clear()
+                angleList.append(round(j0))
+                angleList.append(round(j1))
+                angleList.append(round(j2))
+                angleList.append(round(j3))
+            # print("j0:%f,j1:%f,j2:%f,j3:%f,x:%f,y:%f,z:%f\r\n" %
+            #     (RAD2ANG(j0), j1, j2, j3, x1, y1, z1))
             flag = 1  # print("x1:"+str(x1))
     if flag == 0:
         print("无解")
+    print(angleList)
+    return angleList
 
 
 def main():
-    inverseKinematics(0, 30, 0)
+    inverseKinematics(150, 0, -70)
 
 
 if __name__ == "__main__":
