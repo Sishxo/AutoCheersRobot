@@ -4,14 +4,10 @@
 #include<Servo.h>
 
 //定义舵机对象
+Servo servo0;
 Servo servo1;
 Servo servo2;
 Servo servo3;
-Servo servo4;
-Servo servo5;
-Servo servo6;
-Servo servo7;
-Servo servo8;
 
 String comedata = ""; //定义空的字符串用于接收串口监视器发送的数据
 String buffer = "";  
@@ -24,19 +20,13 @@ void setup(){
     Serial.begin(9600);
 
     //定义舵机引脚
-    servo1.attach(2);
-    servo2.attach(3);
-    servo3.attach(4);
-    servo4.attach(5);
-    servo5.attach(6);
-    servo6.attach(7);
-    servo7.attach(8);
-    servo8.attach(9);
+    servo0.attach(8);
+    servo1.attach(9);
+    servo2.attach(5);
+    servo3.attach(6);
 
     //舵机初始化
-    //servo_init();
-    servo4.write(90);
-    delay(1000);
+    servo_init();
 }
 
 void loop(){
@@ -45,22 +35,10 @@ void loop(){
 
 //功能：舵机位置初始化（归零）
 void servo_init(){
-    servo6.write(0);
-    delay(500);
-    servo5.write(90);
-    delay(500);
-    servo4.write(90);
-    delay(500);
-    servo3.write(90);
-    delay(500);
+    servo0.write(0);
+    servo1.write(0);
     servo2.write(0);
-    delay(500);
-    servo1.write(90);
-    delay(500);
-    servo7.write(0);
-    delay(500);
-    servo8.write(0);
-    delay(500);
+    servo3.write(0);
 }
 
 //功能：接收串口数据并将舵机的角度发送
@@ -96,16 +74,25 @@ void serial_scan(){
         for(int i = 0; i < 4; i++){
             Serial.println(angleList[i]);
         }
-            
-            //机械臂接收到串口的信号后做出相应的动作
-            servo6.write(angleList[0]);
+
+        /*if(angleList[1] != 0|| angleList[2] != 0 || angleList[3] != 0 || angleList[0] != 0 || mark == 1){
+            servo0.write(angleList[0]);
             delay(500);
-            servo5.write(angleList[1]);
+            servo1.write(angleList[1]);
             delay(500);
-            servo4.write(angleList[2]);
+            servo2.write(angleList[2]);
             delay(500);
-            servo7.write(angleList[3]);            
+            servo3.write(angleList[3]);
             delay(500);
+        } */
+            servo0.write(angleList[0]);
+            delay(500);
+            servo1.write(angleList[1]);
+            delay(500);
+            servo2.write(angleList[2]);
+            delay(500);
+            servo3.write(angleList[3]);
+            delay(500);  
 
         for(int i=0;i<4;i++){
         angleList[i]=0;     
@@ -115,4 +102,3 @@ void serial_scan(){
         comedata = String("");
         mark = 0;
     }
-}

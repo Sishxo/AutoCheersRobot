@@ -1,4 +1,4 @@
-
+//这个代码的功能是向串口发送一个字符，使舵机转动到某一角度
 #include <Servo.h> //引入lib
  
 Servo myservo;  // 创建一个伺服电机对象
@@ -10,7 +10,7 @@ String temp = "";//临时字符变量，又或者说是缓存用的吧
  
 void setup() 
 {
-  myservo.attach(9);    //定义舵机的引脚为9，舵机只能是10，或者9引脚
+  myservo.attach(8);    //定义舵机的引脚为9，舵机只能是10，或者9引脚
   Serial.begin(9600);  //设置波特率
 }
  

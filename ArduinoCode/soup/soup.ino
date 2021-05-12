@@ -100,104 +100,116 @@ void serial_scan(){
             //机械臂接收到串口的信号后做出相应的动作
             //舵机6收到的角度在0到180°之间,夹菜的角度是小于90°，勺汤的角度是大于90°
             //servo6.write(angleList[0]);
-            for(int i = 90;i > angleList[0];i--){
+            for(int i = 90;i < angleList[0];i++){
               servo6.write(i);
               delay(15);
               }
             delay(500);
-            //舵机5收到的角度应该是小于90°的
+            //舵机5收到的角度应该是大于90°的
             //servo5.write(angleList[1]);
-            for(int i = 90;i > angleList[1];i--){
+            for(int i = 90;i < angleList[1];i++){
               servo5.write(i);
               delay(15);
               }
             delay(500);
-            //舵机4收到的角度应该是大于90°的
+            //舵机4收到的角度应该是小于90°的
             //servo4.write(angleList[2]);
-            for(int i = 90;i < angleList[2];i++){
+            for(int i = 90;i > angleList[2];i--){
               servo4.write(i);
               delay(15);
               }
             delay(500);
-            //舵机3接收的角度应该是小于90°
-            //servo3.write(angleList[3]);
-            for(int i = 90;i > angleList[3];i--){
-              servo3.write(i);
+            //舵机7从90°转到0°
+            for(int i = 90;i > 0;i--){
+              servo7.write(i);
               delay(15);
               }            
             delay(500);
-
-            //机械臂执行夹菜的动作
-            servo2.write(0);
-            delay(500);
-            servo1.write(0); //柔性爪打开
-            delay(2000);
-            servo1.write(70); //柔性爪关闭
+            //舵机7收到的角度应该是在0到90°之间
+            for(int i = 0;i < angleList[3];i++){
+              servo7.write(i);
+              delay(15);
+              }            
             delay(500);
 
             //短暂延时
             delay(2000);
 
-            //机械臂执行放菜的动作
-            //舵机5将从小于90°的角度回到90°
-            //servo5.write(90);
-            for(int i = angleList[1];i < 90;i++){
+            //机械臂执行倒汤的动作
+            //舵机6将旋转至指定角度
+            //servo6.write(angleList[0]);
+            for(int i = angleList[0];i > 120;i--){
+              servo6.write(i);
+              delay(50);
+              }
+            delay(500);
+            //舵机5前倾1个角度
+            for(int i =  angleList[1];i < 150;i++){
               servo5.write(i);
+              delay(50);
+              }
+            delay(500);                   
+            //舵机8旋转1个角度，倒汤
+            for(int i = 90;i > 0;i--){
+              servo8.write(i);
               delay(15);
               }
             delay(500);
             //舵机6将旋转至指定角度
             //servo6.write(angleList[0]);
-            for(int i = angleList[0];i < 45;i++){
+            for(int i = 120;i < 135;i++){
               servo6.write(i);
-              delay(15);
+              delay(50);
               }
-            delay(500);
-            //舵机3前倾1个角度
-            for(int i = 90; i > 45; i--){
-              servo3.write(i);
-              delay(15);
-              }
-            //舵机5前倾一个角度
-            for(int i = 90;i > 45;i--){
-              servo5.write(i);
-              delay(15);
-              }
-            delay(500);
-            //柔性爪打开
-            servo1.write(0); 
             delay(500);
 
             //机械臂复位
-            //舵机6将从小于90°的角度回到90°
-            //servo6.write(angleList[0]);
-            for(int i = 45;i < 90;i++){
-              servo6.write(i);
+            //舵机8复位
+            for(int i = 0;i < 90;i++){
+              servo8.write(i);
               delay(15);
               }
             delay(500);
-            //舵机5从45°回到90°
-            for(int i = 45;i < 90;i++){
+            //抖动汤勺
+            for(int j = 0 ; j < 5;j++){
+              servo8.write(180);
+              delay(500);
+              servo8.write(90);
+              delay(500);
+              servo8.write(0);
+              delay(500);
+              servo8.write(90);
+              delay(500);
+              }
+            //舵机5从150°回到90°
+            for(int i = 150;i > 90;i--){
               servo5.write(i);
               delay(15);
               }
-            delay(500);            
-            //舵机4将从大于90°的角度回到90°
-            //servo4.write(90);
-            for(int i = angleList[2];i > 90 ;i--){
+            delay(500);
+            //舵机4将从小于90°的角度回到90°
+            for(int i = angleList[2];i < 90 ;i++){
               servo4.write(i);
               delay(15);
               }
-            delay(500);
-            //舵机3从45°复位到
-            //servo3.write(90);
-            for(int i = 45;i < 90;i++){
-              servo3.write(i);
+            delay(500); 
+            //舵机7从angleList[3]复位到0
+            for(int i = angleList[3];i > 0;i--){
+              servo7.write(i);
               delay(15);
               }            
             delay(500);
-
-            servo1.write(90);
+            //舵机7从0°转到90°
+            for(int i = 0;i < 90;i++){
+              servo7.write(i);
+              delay(15);
+              }            
+            delay(500);
+            //舵机6将从120°的角度回到90°
+            for(int i = 120;i > 90;i--){
+              servo6.write(i);
+              delay(15);
+              }
             delay(500);
 
         for(int i=0;i<4;i++){
