@@ -56,15 +56,15 @@ def callback(string):
     # print(string)
     if(1 <= string and string <= 4):
         cX, cY = location.location()
-        X, Y = transfer.transfer(cX, cY)
+        X, Y = transfer.transferCoordinate(cX, cY)
         X=int(X)
         Y=int(Y)
         angleList = inverseKinematic.inverseKinematics(X, Y, Z)
+        angleList = transfer.transferAngle(angleList)
         if(angleList==[]):
             temp=temp+"\n该位置不可到达"
         else:
-            sendString = str(string)+str(angleList[0])+","+str(angleList[1])+","+str(angleList[2])+","+str(angleList[3])
-            sendSerial.sendSerial(sendString)
+            sendSerial.sendSerial(string,angleList)
     else:
         sendString = str(string)
         sendSerial.sendSerial(sendString)
