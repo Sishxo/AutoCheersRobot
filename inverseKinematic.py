@@ -96,7 +96,7 @@ def inverseKinematics(x, y, z):
 
 
 def main():
-    inverseKinematics(150, 0, 0)
+    inverseKinematics(150, 0, -70)
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ import communicate
 import transfer
 import sendSerial
 
-Z = ""
+Z = -7
 
 
 def userinterface():
@@ -57,10 +57,14 @@ def callback(string):
     if(1 <= string and string <= 4):
         cX, cY = location.location()
         X, Y = transfer.transfer(cX, cY)
+        X=int(X)
+        Y=int(Y)
         angleList = inverseKinematic.inverseKinematics(X, Y, Z)
-        sendString = str(string)+str(angleList[0])+","+str(
-            angleList[1])+","+str(angleList[2])+","+str(angleList[3])
-        sendSerial.sendSerial(sendString)
+        if(angleList==[]):
+            temp=temp+"\n该位置不可到达"
+        else:
+            sendString = str(string)+str(angleList[0])+","+str(angleList[1])+","+str(angleList[2])+","+str(angleList[3])
+            sendSerial.sendSerial(sendString)
     else:
         sendString = str(string)
         sendSerial.sendSerial(sendString)
