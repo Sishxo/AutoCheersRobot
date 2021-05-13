@@ -24,9 +24,8 @@ int angleList[4] = {0}; //定义空的数组用于接收四个舵机的角度
 int mark = 0;           //定义mark用于标记串口状态
 String temp = "";
 int option = 0;
-int stepFlag;//定义步进舵机标志位，表示当前正对柔性爪的盘子序号
-int distance[7][7]={{0,0,0,0,0,0,0},{0,0,1,2,3,2,1},{0,1,0,1,2,3,2},{0,2,1,0,1,2,3},{0,3,2,1,0,1,2},{0,2,3,2,1,0,1},{0,1,2,3,2,1}}
-//标注两个盘子之间距离
+int stepFlag=1; //定义步进舵机标志位，表示当前正对柔性爪的盘子序号
+
 //每次开机需复位将1号盘放在默认位置
 
 void setup()
@@ -45,9 +44,9 @@ void setup()
     servo8.attach(9);
 
     //定义步进电机引脚
-    pinMode(stepPin,OUTPUT);
-    pinMode(dirPin,OUTPUT);
-    pinMode(enPin,OUTPUT);
+    pinMode(stepPin, OUTPUT);
+    pinMode(dirPin, OUTPUT);
+    pinMode(enPin, OUTPUT);
 
     //舵机初始化
     servo_init();
@@ -82,7 +81,7 @@ void servo_init()
 //功能：接收串口数据并将舵机的角度发送
 void serial_scan()
 {
-    
+
     int j = 0;
 
     while (Serial.available() > 0)
@@ -98,13 +97,13 @@ void serial_scan()
         Serial.println(comedata);
         Serial.println(comedata.length());
 
-        option = comedata[0]-'0';
+        option = comedata[0] - '0';
         //Serial.println(option);
         if (option >= 1 && option <= 4)
         {
-            step(option,stepFlag);
-            stepFlag=option;
-            comedata = comedata.substring(1) ;
+            stepDispatch(option, stepFlag);
+            stepFlag = option;
+            comedata = comedata.substring(1);
             //Serial.println(comedata);
             for (int i = 0; i < comedata.length() - 1; i++)
             {
@@ -133,14 +132,15 @@ void serial_scan()
             grab(angleList);
             objectDown(angleList);
         }
-        else if(option == 5||option == 6){
-            //TODO
-            step(option,stepFlag);
-            stepFlag=option;
+        else if (option == 5 || option == 6)
+        {
+            stepDispatch(option, stepFlag);
+            stepFlag = option;
             Serial.println("soup()");
             soup();
         }
-        else if(option == 7){
+        else if (option == 7)
+        {
             //TODO
             Serial.println("clean()");
             clean();
@@ -149,7 +149,7 @@ void serial_scan()
     buffer = "";
     comedata = String("");
     mark = 0;
-    option=0;
+    option = 0;
 }
 
 void soup()
@@ -176,12 +176,12 @@ void soup()
     }
     delay(500);
     //舵机7从90°转到0°
-    for (int i = 90; i > 0; i--)
+    /*for (int i = 90; i > 0; i--)
     {
         servo7.write(i);
         delay(15);
     }
-    delay(500);
+    delay(500);*/
     //舵机7转动90°
     for (int i = 0; i < 90; i++)
     {
@@ -194,8 +194,8 @@ void soup()
     delay(2000);
 
     //机械臂执行倒汤的动作
-    //舵机6将旋转至120°
-    for (int i = 180; i > 120; i--)
+    //舵机6将旋转至150°
+    for (int i = 180; i > 150; i--)
     {
         servo6.write(i);
         delay(50);
@@ -216,7 +216,7 @@ void soup()
     }
     delay(500);
     //舵机6将旋转至135°
-    for (int i = 120; i < 135; i++)
+    for (int i = 150; i > 135; i--)
     {
         servo6.write(i);
         delay(50);
@@ -235,13 +235,13 @@ void soup()
     for (int j = 0; j < 3; j++)
     {
         servo8.write(180);
-        delay(500);
+        delay(100);
         servo8.write(90);
-        delay(500);
+        delay(100);
         servo8.write(0);
-        delay(500);
+        delay(100);
         servo8.write(90);
-        delay(500);
+        delay(100);
     }
     //舵机5从150°回到90°
     for (int i = 150; i > 90; i--)
@@ -314,52 +314,60 @@ void grab(int *angleList)
 
     //短暂延时
     delay(2000);
-
-    
 }
 
-void clean(){
+void clean()
+{
     //机械臂转动，使柔性爪深入清洁器皿内
-    for(int i=90;i<130;i++){
+    for (int i = 90; i < 130; i++)
+    {
         servo6.write(i);
         delay(15);
     }
-    for(int i=90;i<110;i++){
+    for (int i = 90; i < 110; i++)
+    {
         servo3.write(i);
         delay(15);
     }
-    for(int i=90;i<130;i++){
+    for (int i = 90; i < 130; i++)
+    {
         servo4.write(i);
         delay(15);
     }
-    for(int i=90;i>50;i--){
+    for (int i = 90; i > 50; i--)
+    {
         servo5.write(i);
         delay(15);
     }
 
-    //在清洁器皿中停留2秒    
+    //在清洁器皿中停留2秒
     delay(2000);
 
     //机械臂转动，使柔性爪从清洁器皿中离开
-    for(int i=50;i<90;i++){
+    for (int i = 50; i < 90; i++)
+    {
         servo5.write(i);
         delay(15);
     }
-    for(int i=130;i>90;i--){
+    for (int i = 130; i > 90; i--)
+    {
         servo4.write(i);
         delay(15);
     }
-    for(int i=110;i>90;i--){
+    for (int i = 110; i > 90; i--)
+    {
         servo3.write(i);
         delay(15);
     }
-    for(int i=130;i>90;i--){
+    for (int i = 130; i > 90; i--)
+    {
         servo6.write(i);
         delay(15);
     }
 }
 
-void objectDown(int *angleList){
+void objectDown(int *angleList)
+{
     //机械臂执行放菜的动作
     //舵机5将从小于90°的角度回到90°
     //servo5.write(90);
@@ -439,28 +447,103 @@ void objectDown(int *angleList){
     }
 }
 
-void stepTimeClock(){
-    digitalWrite(dirPin,HIGH);
+void stepTimeClock()
+{
+    digitalWrite(dirPin, HIGH);
 
-    for(int i=0;i<955;i++){
-        digitalWrite(stepPin,HIGH);
+    for (int i = 0; i < 3057; i++)
+    {
+        digitalWrite(stepPin, HIGH);
         delayMicroseconds(800);
-        digitalWrite(stepPin,LOW);
-        delayMicroseconds(800);
-    }
-}
-
-void stepAntiClock(){
-    digitalWrite(dirPin,LOW);
-
-    for(int i=0;i<955;i++){
-        digitalWrite(stepPin,HIGH);
-        delayMicroseconds(800);
-        digitalWrite(stepPin,LOW);
+        digitalWrite(stepPin, LOW);
         delayMicroseconds(800);
     }
 }
 
-void step(int option,int stepFlag){
-    
+void stepAntiClock()
+{
+    digitalWrite(dirPin, LOW);
+
+    for (int i = 0; i < 3057; i++)
+    {
+        digitalWrite(stepPin, HIGH);
+        delayMicroseconds(800);
+        digitalWrite(stepPin, LOW);
+        delayMicroseconds(800);
+    }
+}
+
+void stepDispatch(int option, int stepFlag)
+{
+    int stepFlag_Video;
+    if(stepFlag==6&&option!=1)
+    {
+        stepFlag_Video=1;
+    }
+    else if(stepFlag==6&&option==1)
+    {
+        delay(1000);
+        stepAntiClock();
+        return 0;
+    }
+    else
+    {
+        stepFlag_Video=stepFlag+1;
+    }
+    int temp1, temp2;
+    if (option < 1 || option > 6 || stepFlag < 1 || stepFlag > 6)
+    {
+        return 0;
+    }
+    if (option > stepFlag_Video)
+    {
+        temp1 = option - stepFlag_Video;
+        temp2 = 6 - option + stepFlag_Video;
+        if (temp1 >= temp2)
+        {
+            for (int i = 0; i < temp2; i++)
+            {
+                stepTimeClock();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < temp1; i++)
+            {
+                stepAntiClock();
+            }
+        }
+        //Serial.println("视觉识别中.....");
+        delay(1000);
+        stepAntiClock();
+    }
+    else if (option < stepFlag_Video)
+    {
+        temp1 = stepFlag_Video - option;
+        temp2 = 6 - stepFlag_Video + option;
+        if (temp1 <= temp2)
+        {
+            for (int i = 0; i < temp1; i++)
+            {
+                stepTimeClock();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < temp2; i++)
+            {
+                stepAntiClock();
+            }
+        }
+        //Serial.println("视觉识别中.....");
+        delay(1000);
+        stepAntiClock();
+    }
+    else
+    {   
+        stepTimeClock();
+        //Serial.println("视觉识别中.....");
+        delay(1000);
+        stepAntiClock();
+    }
 }

@@ -10,7 +10,7 @@ String temp = "";//临时字符变量，又或者说是缓存用的吧
  
 void setup() 
 {
-  myservo.attach(8);    //定义舵机的引脚为9，舵机只能是10，或者9引脚
+  myservo.attach(7);    //定义舵机的引脚为9，舵机只能是10，或者9引脚
   Serial.begin(9600);  //设置波特率
 }
  
