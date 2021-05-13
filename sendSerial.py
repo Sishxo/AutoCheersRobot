@@ -13,9 +13,11 @@ def sendSerial(string,angleList):
     while True:
         Serial.write(sendString.encode())
         rcvString = Serial.readline().decode()
-        if(rcvString == "ok\r\n"):
+        if(rcvString == "Mark = 1!\r\n"): #不要回答！不要回答！
             print("The instruction has been sent.")
             break
+        else:
+            print("Handshake failed.")
     Serial.close()
 
 if __name__=="__main__":

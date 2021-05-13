@@ -54,8 +54,6 @@ def locationVideo():
     camera.release()
     cv2.destroyAllWindows()
 
-    return cX, cY
-
 def location():
     camera = cv2.VideoCapture(0)
 

@@ -171,7 +171,7 @@ void serial_scan(){
               }
             delay(500);
             //抖动汤勺
-            for(int j = 0 ; j < 5;j++){
+            for(int j = 0 ; j < 3;j++){
               servo8.write(180);
               delay(500);
               servo8.write(90);

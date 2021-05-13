@@ -32,12 +32,14 @@ def userinterface():
                 ('3号菜品', 3),
                 ('4号菜品', 4),
                 ('5号汤品', 5),
-                ('6号汤品', 6)
+                ('6号汤品', 6),
+                ('清洁柔性爪',7),
+                ('观看菜品识别帧图像',8)
                 ]
 
     for lang, num in language:
         b = Radiobutton(group, text=lang, variable=var, value=num,
-                        indicatoron=False, padx=300, pady=30, font=fontStyle_2)
+                        indicatoron=False, padx=300, pady=15, font=fontStyle_2)
         l = Label(group, text=' ')  # 将内容添加到框架中
 
         l.pack()
@@ -65,10 +67,14 @@ def callback(string):
             temp=temp+"\n该位置不可到达"
         else:
             sendSerial.sendSerial(string,angleList)
-    else:
+    elif(string == 5 or string == 6):
         sendString = str(string)
-        sendSerial.sendSerial(sendString)
-
+        angleList=[0,0,0,0]
+        sendSerial.sendSerial(string,angleList)
+    
+    else:
+        location.locationVideo()
+        temp="图像识别画面已关闭"
     easygui.msgbox(temp, title='正在进行图像识别......')
 
 
