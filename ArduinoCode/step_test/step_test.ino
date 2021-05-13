@@ -23,12 +23,12 @@ void loop() {
     delayMicroseconds(800);
     }   
     
-    //digitalWrite(dirPin, LOW);
+    /*digitalWrite(dirPin, LOW);
 
     for (int x = 0; x < 10000; x ++) {
     digitalWrite(stepPin, HIGH);
     delayMicroseconds(800);
     digitalWrite(stepPin, LOW);
     delayMicroseconds(800);
-    }   
+    }   */
 }

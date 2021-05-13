@@ -3,6 +3,11 @@
 */
 #include <Servo.h>
 
+//步进电机
+#define stepPin 11
+#define dirPin 12
+#define enPin 13
+
 //定义舵机对象
 Servo servo1;
 Servo servo2;
@@ -19,6 +24,10 @@ int angleList[4] = {0}; //定义空的数组用于接收四个舵机的角度
 int mark = 0;           //定义mark用于标记串口状态
 String temp = "";
 int option = 0;
+int stepFlag;//定义步进舵机标志位，表示当前正对柔性爪的盘子序号
+int distance[7][7]={{0,0,0,0,0,0,0},{0,0,1,2,3,2,1},{0,1,0,1,2,3,2},{0,2,1,0,1,2,3},{0,3,2,1,0,1,2},{0,2,3,2,1,0,1},{0,1,2,3,2,1}}
+//标注两个盘子之间距离
+//每次开机需复位将1号盘放在默认位置
 
 void setup()
 {
@@ -34,6 +43,11 @@ void setup()
     servo6.attach(7);
     servo7.attach(8);
     servo8.attach(9);
+
+    //定义步进电机引脚
+    pinMode(stepPin,OUTPUT);
+    pinMode(dirPin,OUTPUT);
+    pinMode(enPin,OUTPUT);
 
     //舵机初始化
     servo_init();
@@ -68,6 +82,7 @@ void servo_init()
 //功能：接收串口数据并将舵机的角度发送
 void serial_scan()
 {
+    
     int j = 0;
 
     while (Serial.available() > 0)
@@ -87,6 +102,8 @@ void serial_scan()
         //Serial.println(option);
         if (option >= 1 && option <= 4)
         {
+            step(option,stepFlag);
+            stepFlag=option;
             comedata = comedata.substring(1) ;
             //Serial.println(comedata);
             for (int i = 0; i < comedata.length() - 1; i++)
@@ -118,6 +135,8 @@ void serial_scan()
         }
         else if(option == 5||option == 6){
             //TODO
+            step(option,stepFlag);
+            stepFlag=option;
             Serial.println("soup()");
             soup();
         }
@@ -130,6 +149,7 @@ void serial_scan()
     buffer = "";
     comedata = String("");
     mark = 0;
+    option=0;
 }
 
 void soup()
@@ -299,7 +319,44 @@ void grab(int *angleList)
 }
 
 void clean(){
-    //TODO
+    //机械臂转动，使柔性爪深入清洁器皿内
+    for(int i=90;i<130;i++){
+        servo6.write(i);
+        delay(15);
+    }
+    for(int i=90;i<110;i++){
+        servo3.write(i);
+        delay(15);
+    }
+    for(int i=90;i<130;i++){
+        servo4.write(i);
+        delay(15);
+    }
+    for(int i=90;i>50;i--){
+        servo5.write(i);
+        delay(15);
+    }
+
+    //在清洁器皿中停留2秒    
+    delay(2000);
+
+    //机械臂转动，使柔性爪从清洁器皿中离开
+    for(int i=50;i<90;i++){
+        servo5.write(i);
+        delay(15);
+    }
+    for(int i=130;i>90;i--){
+        servo4.write(i);
+        delay(15);
+    }
+    for(int i=110;i>90;i--){
+        servo3.write(i);
+        delay(15);
+    }
+    for(int i=130;i>90;i--){
+        servo6.write(i);
+        delay(15);
+    }
 }
 
 void objectDown(int *angleList){
@@ -380,4 +437,30 @@ void objectDown(int *angleList){
     {
         angleList[i] = 0;
     }
+}
+
+void stepTimeClock(){
+    digitalWrite(dirPin,HIGH);
+
+    for(int i=0;i<955;i++){
+        digitalWrite(stepPin,HIGH);
+        delayMicroseconds(800);
+        digitalWrite(stepPin,LOW);
+        delayMicroseconds(800);
+    }
+}
+
+void stepAntiClock(){
+    digitalWrite(dirPin,LOW);
+
+    for(int i=0;i<955;i++){
+        digitalWrite(stepPin,HIGH);
+        delayMicroseconds(800);
+        digitalWrite(stepPin,LOW);
+        delayMicroseconds(800);
+    }
+}
+
+void step(int option,int stepFlag){
+    
 }
