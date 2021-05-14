@@ -1,4 +1,6 @@
 def transferCoordinate(X, Y):
+    X=round(int(X)*0.325+108)
+    Y=round(int(Y)*0.325-96.75)
     return X,Y
 
 def transferAngle(angleList):

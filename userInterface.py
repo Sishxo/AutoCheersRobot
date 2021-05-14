@@ -59,8 +59,6 @@ def callback(string):
     if(1 <= string and string <= 4):
         cX, cY = location.location()
         X, Y = transfer.transferCoordinate(cX, cY)
-        X=int(X)
-        Y=int(Y)
         angleList = inverseKinematic.inverseKinematics(X, Y, Z)
         angleList = transfer.transferAngle(angleList)
         if(angleList==[]):

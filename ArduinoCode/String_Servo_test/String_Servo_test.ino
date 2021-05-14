@@ -180,8 +180,8 @@ void soup()
     {
         servo7.write(i);
         delay(15);
-    }
-    delay(500);*/
+    }*/
+    delay(500);
     //舵机7转动90°
     for (int i = 0; i < 90; i++)
     {
@@ -234,11 +234,11 @@ void soup()
     //抖动汤勺
     for (int j = 0; j < 3; j++)
     {
-        servo8.write(180);
+        servo8.write(135);
         delay(100);
         servo8.write(90);
         delay(100);
-        servo8.write(0);
+        servo8.write(45);
         delay(100);
         servo8.write(90);
         delay(100);
@@ -257,10 +257,17 @@ void soup()
         delay(15);
     }
     delay(500);
-    //舵机6将从120°的角度回到90°
-    for (int i = 120; i > 90; i--)
+    //舵机6将从135°的角度回到90°
+    for (int i = 135; i > 90; i--)
     {
         servo6.write(i);
+        delay(15);
+    }
+    delay(500);
+    //舵机7从90°转到0°
+    for (int i = 90; i > 0; i--)
+    {
+        servo7.write(i);
         delay(15);
     }
     delay(500);
@@ -541,9 +548,9 @@ void stepDispatch(int option, int stepFlag)
     }
     else
     {   
-        stepTimeClock();
+        //stepTimeClock();
         //Serial.println("视觉识别中.....");
-        delay(1000);
+        delay(2000);
         stepAntiClock();
     }
 }
