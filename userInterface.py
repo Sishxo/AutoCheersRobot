@@ -67,7 +67,7 @@ def callback(string):
             temp=temp+"\n该位置不可到达"
         else:
             sendSerial.sendSerial(string,angleList)
-    elif(string == 5 or string == 6):
+    elif(string == 5 or string == 6 or string==7):
         sendString = str(string)
         angleList=[0,0,0,0]
         sendSerial.sendSerial(string,angleList)
