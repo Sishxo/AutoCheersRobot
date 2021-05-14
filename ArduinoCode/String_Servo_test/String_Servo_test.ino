@@ -402,7 +402,7 @@ void objectDown(int *angleList)
         delay(15);
     }
     //舵机5前倾一个角度
-    for (int i = 90; i > 45; i--)
+    for (int i = 90; i > 30; i--)
     {
         servo5.write(i);
         delay(15);
@@ -421,8 +421,8 @@ void objectDown(int *angleList)
         delay(15);
     }
     delay(500);
-    //舵机5从45°回到90°
-    for (int i = 45; i < 90; i++)
+    //舵机5从30°回到90°
+    for (int i = 30; i < 90; i++)
     {
         servo5.write(i);
         delay(15);

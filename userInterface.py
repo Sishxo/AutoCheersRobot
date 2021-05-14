@@ -3,7 +3,6 @@ import tkinter.font as tkFont
 import easygui
 import location
 import inverseKinematic
-import communicate
 import transfer
 import sendSerial
 
