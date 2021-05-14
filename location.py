@@ -98,6 +98,7 @@ def location():
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
         cv2.imshow("Image", frame)
         cv2.imshow("thresh", thresh)
+        #merge
         # cv2.imshow("adaptive_thresh",adaptive_thresh)
         # cv2.imwrite("test.jpg",frame)
         #key = cv2.waitKey(1) & 0xFF

@@ -71,7 +71,7 @@ def callback(string):
         sendString = str(string)
         angleList=[0,0,0,0]
         sendSerial.sendSerial(string,angleList)
-    
+    #merge
     else:
         location.locationVideo()
         temp="图像识别画面已关闭"
