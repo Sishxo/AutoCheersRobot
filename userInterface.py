@@ -6,7 +6,7 @@ import inverseKinematic
 import transfer
 import sendSerial
 
-Z = -7
+#Z = -10
 
 
 def userinterface():
@@ -56,19 +56,13 @@ def callback(string):
     temp = "您已选中"+str(temp)+"号菜"
     # print(string)
     if(1 <= string and string <= 4):
-        cX, cY = location.location()
-        X, Y = transfer.transferCoordinate(cX, cY)
-        angleList = inverseKinematic.inverseKinematics(X, Y, Z)
-        angleList = transfer.transferAngle(angleList)
-        if(angleList==[]):
+        ret=sendSerial.sendSerialGrab(string)
+        if(ret==0):
             temp=temp+"\n该位置不可到达"
         else:
-            sendSerial.sendSerial(string,angleList)
+            print("done")
     elif(string == 5 or string == 6 or string==7):
-        sendString = str(string)
-        angleList=[0,0,0,0]
-        sendSerial.sendSerial(string,angleList)
-    #merge
+        sendSerial.sendSerialSoup(string)
     else:
         location.locationVideo()
         temp="图像识别画面已关闭"
